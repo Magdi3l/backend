@@ -4,6 +4,13 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './Module/Usuario/usuario.module';
+import { IngresoModule } from './Module/control-gastos/ingreso/ingreso.module';
+import { HistorialModule } from './Module/control-gastos/historial/historial.module';
+import { AhorrosModule } from './Module/control-gastos/ahorros/ahorros.module';
+import { GastosVariablesModule } from './Module/control-gastos/gastos-variables/gastos-variables.module';
+import { GastosFijosModule } from './Module/control-gastos/gastos-fijos/gastos-fijos.module';
+
+
 
 @Module({
   imports: [
@@ -20,7 +27,7 @@ import { UsuarioModule } from './Module/Usuario/usuario.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
     }),  
-    UsuarioModule,
+   UsuarioModule, IngresoModule, GastosFijosModule, GastosVariablesModule, AhorrosModule, HistorialModule,
   ],
   controllers: [AppController],
   providers: [AppService],
