@@ -1,5 +1,3 @@
-// src/modules/gastos-fijos/gastos-fijos.controller.ts
-
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { GastosFijosService } from './gastos-fijos.service';
 import { GastoFijo } from './entities/gastos-fijo.entity';
@@ -15,7 +13,9 @@ export class GastosFijosController {
   }
 
   @Post()
-  async create(@Body() createGastoFijoDto: CreateGastoFijoDto): Promise<GastoFijo> {
+  async create(
+    @Body() createGastoFijoDto: CreateGastoFijoDto,
+  ): Promise<GastoFijo> {
     return this.gastosFijosService.create(createGastoFijoDto);
   }
 }

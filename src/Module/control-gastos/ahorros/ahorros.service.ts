@@ -1,5 +1,3 @@
-// src/module/ahorros/ahorros.service.ts
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -20,7 +18,7 @@ export class AhorrosService {
       name,
       amount,
       date,
-      type: 'Ahorro', // Aquí se establece el tipo
+      type: 'Ahorro',
     });
 
     return await this.ahorroRepository.save(newAhorro);

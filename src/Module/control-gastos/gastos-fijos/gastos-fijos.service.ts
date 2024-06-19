@@ -1,4 +1,3 @@
-// src/modules/gastos-fijos/gastos-fijos.service.ts
 
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,7 +17,7 @@ export class GastosFijosService {
   }
 
   async create(createGastoFijoDto: CreateGastoFijoDto): Promise<GastoFijo> {
-    const { name, amount, date} = createGastoFijoDto;
+    const { name, amount, date } = createGastoFijoDto;
 
     const newGastoFijo = this.gastoFijoRepository.create({
       name,
