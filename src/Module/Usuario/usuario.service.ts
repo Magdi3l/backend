@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Usuario } from './usuario.entity';
 import { CreateUsuarioDto } from './dtos/create-usuario.dto';
 import { VerificationService } from './verificacion.service';
+import { UpdateUsuarioDto } from './dtos/update.dto';
 
 @Injectable()
 export class UsuarioService {
@@ -12,6 +13,25 @@ export class UsuarioService {
     @InjectRepository(Usuario)
     private usuariosRepository: Repository<Usuario>,
   ) {}
+
+  async update(id: number, updateUsuarioDto: UpdateUsuarioDto): Promise<Usuario> {
+    const usuario = await this.usuariosRepository.findOne({where: {id_usuario:id}});
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+    this.usuariosRepository.merge(usuario, updateUsuarioDto);
+    return this.usuariosRepository.save(usuario);
+  }
+
+  async validateUser(username: string, password: string): Promise<Usuario | null> {
+    const usuario = await this.usuariosRepository.findOne({
+      where: { nombre_usuario: username }
+    });
+    if (usuario && usuario.contraseña === password) {
+      return usuario; 
+    }
+    return null;
+  }
 
   async verificarCorreo(email: string): Promise<void> {
     this.logger.log(`Verificando existencia del correo: ${email}`);

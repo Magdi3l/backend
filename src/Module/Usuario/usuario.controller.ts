@@ -1,9 +1,11 @@
-import { Controller, Post, Body, HttpCode, HttpStatus, Logger, HttpException, BadRequestException } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, Logger, HttpException, BadRequestException, Put, Param } from '@nestjs/common';
 import { UsuarioService } from './usuario.service';
 import { CreateUsuarioDto } from './dtos/create-usuario.dto';
 import { VerifyEmailDto } from './dtos/verify-email.dto';
 import { VerificationService } from './verificacion.service';
 import { VerifyCedulaDto, VerifyUsuarioDto } from './dtos/verify-dtos';
+import { LoginDto } from './dtos/login.dto';
+import { UpdateUsuarioDto } from './dtos/update.dto';
 
 @Controller('usuarios')
 export class UsuarioController {
@@ -13,6 +15,24 @@ export class UsuarioController {
     private readonly usuarioService: UsuarioService,
     private readonly verificationService: VerificationService
   ) {}
+
+  @Put('edit_usuario/:id')
+  async updateUsuario(@Param('id') id: number, @Body() updateUsuarioDto: UpdateUsuarioDto) {
+    return await this.usuarioService.update(id, updateUsuarioDto);
+  }
+
+  @Post('login')
+  async login(@Body() loginDto: LoginDto) {
+    try {
+      const usuario = await this.usuarioService.validateUser(loginDto.username, loginDto.password);
+      if (!usuario) {
+        throw new HttpException('Credenciales inválidas', HttpStatus.UNAUTHORIZED);
+      }
+      return usuario;
+    } catch (error) {
+      throw new HttpException('Error de inicio de sesión', HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 
   @Post('verificar_correo')
   async verificarCorreo(@Body() verifyEmailDto: VerifyEmailDto) {
@@ -114,4 +134,7 @@ export class UsuarioController {
       },HttpStatus.BAD_REQUEST);
     }
   }
+
+
+  
 }
