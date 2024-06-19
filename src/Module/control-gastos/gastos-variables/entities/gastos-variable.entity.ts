@@ -8,7 +8,7 @@ export class GastoVariable {
   @Column()
   name: string;
 
-  @Column()
+  @Column('decimal')
   amount: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
